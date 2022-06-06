@@ -1,7 +1,7 @@
 # MLQS-G91-A1
 
 ## Structure
-The following notebooks in `src` contain code to answer to their respective questions.
+The following notebooks in `src` contain code to answer their respective questions.
 ### Theoretical Questions:
 - `Q1.ipynb` (Chapter 2): 1, 2, and 3
 - `Q2.ipynb` (Chapter 3): 2 and 4
