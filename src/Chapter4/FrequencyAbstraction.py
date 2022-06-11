@@ -56,7 +56,7 @@ class FourierTransformation:
     # Get frequencies over a certain window.
     def abstract_frequency(self, data_table, columns, window_size, sampling_rate):
         self.freqs = (sampling_rate * np.fft.rfftfreq(int(window_size))).round(3)
-
+        
         for col in columns:
             collist = []
             # prepare column names
