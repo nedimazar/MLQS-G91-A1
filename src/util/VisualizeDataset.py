@@ -55,9 +55,9 @@ class VisualizeDataset:
 
         # Create subplots if more columns are specified.
         if len(columns) > 1:
-            f, xar = plt.subplots(len(columns), sharex=True, sharey=False)
+            f, xar = plt.subplots(len(columns), sharex=True, sharey=False, figsize=(50,5))
         else:
-            f, xar = plt.subplots()
+            f, xar = plt.subplots(figsize=(50,5))
             xar = [xar]
 
         f.subplots_adjust(hspace=0.4)
@@ -101,7 +101,7 @@ class VisualizeDataset:
                                 self.line_displays[j%len(self.line_displays)])
 
             xar[i].tick_params(axis='y', labelsize=10)
-            xar[i].legend(relevant_cols, fontsize='xx-small', numpoints=1, loc='upper center',
+            xar[i].legend(relevant_cols, fontsize='20', numpoints=1, loc='upper center',
                           bbox_to_anchor=(0.5, 1.3), ncol=len(relevant_cols), fancybox=True, shadow=True)
 
             xar[i].set_ylim([min(min_values) - 0.1*(max(max_values) - min(min_values)),
@@ -109,7 +109,7 @@ class VisualizeDataset:
 
         # Make sure we get a nice figure with only a single x-axis and labels there.
         plt.setp([a.get_xticklabels() for a in f.axes[:-1]], visible=False)
-        plt.xlabel('time')
+        plt.xlabel('time (min)')
         self.save(plt)
         plt.show()
 
