@@ -80,6 +80,8 @@ class FourierTransformation:
                         'constant', constant_values=np.nan)
             # add new freq columns to frame
             
+            frequencies = frequencies[:len(data_table)]
+
             data_table[collist] = pd.DataFrame(frequencies, index=data_table.index)
 
             # reset temp-storage array
