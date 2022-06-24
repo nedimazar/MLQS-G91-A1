@@ -89,7 +89,7 @@ class NonHierarchicalClustering:
             return DM.create_instances_mean(temp_datasets)
 
     # Perform k-means over an individual dataset.
-    def k_means_over_instances(self, dataset, cols, k, distance_metric, max_iters, n_inits, p=1):
+    def k_means_over_instances(self, dataset, cols, k, distance_metric, max_iters, n_inits, p=1,cluster_name=''):
 
         # Take the appropriate columns.
         temp_dataset = dataset[cols]
@@ -113,11 +113,11 @@ class NonHierarchicalClustering:
         # Now apply the k-means algorithm
         kmeans = KMeans(n_clusters=k, max_iter=max_iters, n_init=n_inits, random_state=0).fit(temp_dataset)
         # Add the labels to the dataset
-        dataset['cluster'] = kmeans.labels_
+        dataset['cluster'+cluster_name] = kmeans.labels_
         # Compute the solhouette and add it as well.
         silhouette_avg = silhouette_score(temp_dataset, kmeans.labels_)
         silhouette_per_inst = silhouette_samples(temp_dataset, kmeans.labels_)
-        dataset['silhouette'] = silhouette_per_inst
+        dataset['silhouette'+cluster_name] = silhouette_per_inst
 
         # Reset the module distance function for further usage
         sklearn_euclidian_distances = sklearn_euclidian_distances
@@ -165,11 +165,12 @@ class NonHierarchicalClustering:
         return distances
 
     # We need to implement k-medoids ourselves to accommodate all distance metrics
-    def k_medoids_over_instances(self, dataset, cols, k, distance_metric, max_iters, n_inits=5, p=1):
+    def k_medoids_over_instances(self, dataset, cols, k, distance_metric, max_iters, n_inits=5, p=1,cluster_name=''):
         # If we set it to default we use the pyclust package...
         temp_dataset = dataset[cols]
         if distance_metric == 'default':
             km = pyclust.KMedoids(n_clusters=k, n_trials=n_inits)
+
             km.fit(temp_dataset.values)
             cluster_assignment = km.labels_
 
@@ -216,10 +217,10 @@ class NonHierarchicalClustering:
                     best_silhouette = silhouette_avg
 
         # And add the clusters and silhouette scores to the dataset.
-        dataset['cluster'] = cluster_assignment
+        dataset['cluster'+cluster_name] = cluster_assignment
         silhouette_avg = silhouette_score(temp_dataset, np.array(cluster_assignment))
         silhouette_per_inst = silhouette_samples(temp_dataset, np.array(cluster_assignment))
-        dataset['silhouette'] = silhouette_per_inst
+        dataset['silhouette'+cluster_name] = silhouette_per_inst
 
         return dataset
 
